@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalp Hastalığı Tahmini</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .card { max-width: 600px; margin: 40px auto; }
+    .btn-custom { background-color: #0d6efd; color: #fff; }
+    .btn-custom:hover { background-color: #0b5ed7; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Kalp Hastalığı Tahmin Formu</h3>
+      <small>Girdiğiniz değerlere göre risk tahmini yapar.</small>
+    </div>
+    <div class="card-body">
+      <form id="predict-form">
+
+        <!-- Yaş -->
+        <div class="mb-3">
+          <label for="age" class="form-label">Yaş</label>
+          <input id="age" name="age" type="number" class="form-control" placeholder="Örneğin: 63" required>
+          <div class="form-text">Yaşınızı tam sayı olarak girin.</div>
+        </div>
+
+        <!-- Cinsiyet -->
+        <div class="mb-3">
+          <label for="sex" class="form-label">Cinsiyet</label>
+          <select id="sex" name="sex" class="form-select">
+            <option value="0">Kadın</option>
+            <option value="1">Erkek</option>
+          </select>
+        </div>
+
+        <!-- Göğüs Ağrısı Tipi -->
+        <div class="mb-3">
+          <label for="cp" class="form-label">Göğüs Ağrısı Tipi</label>
+          <select id="cp" name="cp" class="form-select">
+            <option value="1">Tipik (typical angina)</option>
+            <option value="2">Belirti göstermeyen (asymptomatic)</option>
+            <option value="3">Angina dışı (non-anginal)</option>
+            <option value="4">Atipik (atypical angina)</option>
+          </select>
+        </div>
+
+        <!-- Diğer alanlar yan yana iki sütunda -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="trestbps" class="form-label">Rahat Kan Basıncı (trestbps)</label>
+            <input id="trestbps" name="trestbps" type="number" class="form-control" placeholder="Örneğin: 145" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="chol" class="form-label">Kolestrol (chol)</label>
+            <input id="chol" name="chol" type="number" class="form-control" placeholder="Örneğin: 233" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="thalch" class="form-label">Maksimum Kalp Hızı (thalch)</label>
+            <input id="thalch" name="thalch" type="number" class="form-control" placeholder="Örneğin: 150" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="oldpeak" class="form-label">Egzersiz ile Değişim (oldpeak)</label>
+            <input id="oldpeak" name="oldpeak" type="number" step="0.1" class="form-control" placeholder="Örneğin: 2.3" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="ca" class="form-label">Sayısal Damarsal Lezyon (ca)</label>
+            <input id="ca" name="ca" type="number" class="form-control" placeholder="0-3" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="slope" class="form-label">ST Segmentinin Eğim</label>
+            <select id="slope" name="slope" class="form-select">
+              <option value="1">Yükselen (upsloping)</option>
+              <option value="2">Düz (flat)</option>
+              <option value="3">Alçalan (downsloping)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="fbs" class="form-label">Tokluk Kan Şekeri (fbs)</label>
+            <select id="fbs" name="fbs" class="form-select">
+              <option value="0">Düşük</option>
+              <option value="1">Yüksek (&gt; 120 mg/dl)</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="restecg" class="form-label">İstirahat EKG (restecg)</label>
+            <select id="restecg" name="restecg" class="form-select">
+              <option value="0">Normal</option>
+              <option value="1">ST-T anormallik</option>
+              <option value="2">Sol ventrikül hipertrofisi</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="exang" class="form-label">Egzersize Bağlı Anjina (exang)</label>
+            <select id="exang" name="exang" class="form-select">
+              <option value="0">Hayır</option>
+              <option value="1">Evet</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="thal" class="form-label">Thal</label>
+            <select id="thal" name="thal" class="form-select">
+              <option value="3">Normal</option>
+              <option value="6">Sabit defekt</option>
+              <option value="7">Geri dönüşümlü defekt</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-custom w-100">Tahmin Et</button>
+      </form>
+
+      <div id="result" class="alert mt-4 d-none" role="alert"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('predict-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target;
+    const data = {};
+    new FormData(form).forEach((v,k)=>data[k]=v);
+    const res = await fetch('/predict', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    const resultDiv = document.getElementById('result');
+    resultDiv.classList.remove('d-none');
+    resultDiv.classList.add(json.prediction === 1 ? 'alert-danger' : 'alert-success');
+    const percent = (json.probability * 100).toFixed(2);
+    resultDiv.innerText = `Tahmin: ${json.prediction === 1 ? 'Risk VAR' : 'Risk YOK'}, Olasılık: ${percent}%`;
+  });
+</script>
+</body>
+</html>
